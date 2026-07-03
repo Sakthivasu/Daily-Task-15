@@ -1,0 +1,34 @@
+​1. What is LIMIT and OFFSET in SQL?
+
+​LIMIT defines the "page size" (the number of items to display).
+
+​OFFSET defines the "starting point" (the number of items to skip).
+
+​Example: For 47 products, page 3, with 8 per page:
+​LIMIT = 8
+​OFFSET = (3 - 1) * 8 = 16
+​Logic: We skip the first 2 pages (8+8=16 items) and take the next 8.
+
+
+​2. How does useDebounce work, and what is the cleanup function?
+
+​How it works: It delays a state update by a set time (e.g., 500ms). 
+If the user types again before that time passes, the previous timer is canceled.
+​Cleanup (clearTimeout): This function runs before the next effect or when the component unmounts.
+​Importance: It ensures only the final search term triggers the API call, preventing "race conditions" and unnecessary server load from multiple rapid requests.
+
+
+​3. Why reset currentPage to 1 when the search term changes?
+
+​Consistency: A search changes the result set.
+If you are on page 5 of an old search, that page might not exist in the new, filtered results.
+​User Experience: It forces the user to see the beginning of the new data set immediately, preventing them from landing on an empty or "no results found" page by mistake.
+
+
+​4. Pagination props and Parent Control
+
+​Props: The component accepts currentPage (display state), totalPages (limit state), and onPageChange (the trigger function).
+​Parent Control: The parent acts as the "Source of Truth."
+It holds the state and handles the logic.
+ The child component only notifies the parent when a button is clicked via the onPageChange callback.
+ This makes the component reusable because it doesn't hardcode the data-fetching logic inside itself.
